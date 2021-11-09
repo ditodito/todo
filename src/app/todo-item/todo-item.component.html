@@ -1,0 +1,53 @@
+<div class="border border-muted rounded-1 p-3 mb-3">
+  <div class="d-flex justify-content-between">
+    <div>
+      {{ todo.id }}. {{ todo.name }}<br />
+      <span
+        class="badge bg-primary"
+        [ngClass]="{
+          'bg-primary': todo.priority === priority.MEDIUM,
+          'bg-secondary': todo.priority === priority.LOW,
+          'bg-danger': todo.priority === priority.HIGH
+        }"
+        >{{ todo.priority | titlecase }}</span
+      >
+    </div>
+    <div>
+      <button
+        class="btn btn-primary btn-sm me-2"
+        *ngIf="todo.state == state.TODO"
+        (click)="onNewState(state.INPROGRESS)"
+      >
+        <i class="bi bi-chevron-right"></i>
+      </button>
+      <button
+        class="btn btn-danger btn-sm"
+        *ngIf="todo.state == state.TODO"
+        (click)="onDelete(todo.id)"
+      >
+        <i class="bi bi-x"></i>
+      </button>
+      <button
+        class="btn btn-primary btn-sm me-2"
+        *ngIf="todo.state == state.INPROGRESS"
+        (click)="onNewState(state.TODO)"
+      >
+        <i class="bi bi-chevron-left"></i>
+      </button>
+      <button
+        class="btn btn-success btn-sm"
+        *ngIf="todo.state == state.INPROGRESS"
+        (click)="onNewState(state.DONE)"
+      >
+        <i class="bi bi-chevron-right"></i>
+      </button>
+      <button
+        class="btn btn-primary btn-sm"
+        *ngIf="todo.state == state.DONE"
+        (click)="onNewState(state.INPROGRESS)"
+      >
+        <i class="bi bi-chevron-left"></i>
+      </button>
+    </div>
+  </div>
+</div>

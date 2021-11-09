@@ -1,0 +1,90 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col">
+      <form class="row">
+        <div class="col-auto">
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            name="taskName"
+            [(ngModel)]="todoName"
+          />
+        </div>
+        <div class="col-auto">
+          <select
+            class="form-select form-select-sm mb-3"
+            name="taskPriority"
+            [(ngModel)]="todoPriority"
+          >
+            <option value="">Select</option>
+            <option
+              *ngFor="let priority of this.priority | keyvalue"
+              [value]="priority['value']"
+            >
+            {{ priority["value"] | titlecase }}
+            </option>
+          </select>
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-primary btn-sm" (click)="addTodo()">
+            Add
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 col-md-4 mb-3">
+      <div class="border border-primary rounded-1">
+        <div class="bg-light border-bottom border-muted px-3 py-2">
+          <i class="bi bi-calendar2-week-fill"></i> To-do
+        </div>
+        <div class="px-3 py-3">
+          <div *ngIf="getTodoByState(state.TODO).length > 0; else emptyTodo">
+            <app-todo-item
+            *ngFor="let todo of getTodoByState(state.TODO)"
+            [todo]="todo"
+            (newState)="onChangeState(todo.id, $event)"
+            (delete)="onDelete($event)"></app-todo-item>
+          </div>
+          <ng-template #emptyTodo>List is empty</ng-template>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-4 mb-3">
+      <div class="border border-info rounded-1">
+        <div class="bg-light border-bottom border-muted px-3 py-2">
+          <i class="bi bi-calendar2-week-fill"></i> In Progress
+        </div>
+        <div class="px-3 py-3">
+          <div *ngIf="getTodoByState(state.INPROGRESS).length > 0; else emptyInporgress">
+            <app-todo-item
+            *ngFor="let todo of getTodoByState(state.INPROGRESS)"
+            [todo]="todo"
+            (newState)="onChangeState(todo.id, $event)"
+            (delete)="onDelete($event)"></app-todo-item>
+          </div>
+          <ng-template #emptyInporgress>List is empty</ng-template>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-4 mb-3">
+      <div class="border border-success rounded-1">
+        <div class="bg-light border-bottom border-muted px-3 py-2">
+          <i class="bi bi-calendar2-week-fill"></i> Done
+        </div>
+        <div class="px-3 py-3">
+          <div *ngIf="getTodoByState(state.DONE).length > 0; else emptyNode">
+            <app-todo-item
+            *ngFor="let todo of getTodoByState(state.DONE)"
+            [todo]="todo"
+            (newState)="onChangeState(todo.id, $event)"
+            (delete)="onDelete($event)"></app-todo-item>
+          </div>
+          <ng-template #emptyNode>List is empty</ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
